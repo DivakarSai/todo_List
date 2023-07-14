@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "node-fetch": "^2.6.12",
+    "requirejs": "^2.3.6"
+  }
+}
