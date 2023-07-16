@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #e1e3ea;
+  background-color: white;
   height: fit-content;
   font-family: sans-serif;
 }
