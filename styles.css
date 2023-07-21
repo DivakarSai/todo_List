@@ -34,18 +34,47 @@
 
 .app form {
   display: flex;
-  width: 100%;
-  background-color: white;
+  
+  background-color: #105652;
 }
 
 .app form input {
   border: none;
-  background-color: rgb(215, 215, 215);
+  background-color: #b4b7b6;
   font-size: 18px;
   color: rgb(0, 0, 0);
   padding: 10px;
-  width: 90%;
+  margin-bottom: 1px;
+  
+  
 }
+
+.task_desc{
+  width: 60%;
+  font-size: large;
+  background-color: #6dd5d0;
+}
+.task_cat{
+  width: 15%;
+  margin-bottom: 1px;
+  background-color: #6dd5d0;
+  font-size: large;
+}
+.task_date{
+  width: 25%;
+  margin-bottom: 1px;
+  background-color: #6dd5d0;
+  font-size: large;
+}
+label{
+  color: #262626;
+  font-size: 16px;
+  padding: 10px;
+  width: 10%;
+  margin-bottom: 1px;
+  background-color: #1dd2af;
+}
+
 
 .app form button {
   border: none;
@@ -55,20 +84,24 @@
   font-weight: 600;
   height: 42px;
   width: 10%;
+  margin-bottom: 1px;
 }
 
 .app ul {
   list-style: none;
-  color: #e0e0e0;
+  color: #DFD8CA;
   padding: 0;
+  background-color: #6dd5d0;
 }
 
 .app ul li {
   display: flexbox;
   padding: 10px;
-  background-color: #105652;
+  background-color: #6dd5d0;
   border-bottom: 1px solid #105652;
   height: fit-content;
+  color: #DFD8CA;
+  
 }
 
 .check {
@@ -102,6 +135,7 @@
 .app ul li i {
   float: right;
   cursor: pointer;
+  color: white;
 }
 
 .app ul li i:hover {
