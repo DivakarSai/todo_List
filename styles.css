@@ -110,11 +110,13 @@ label{
 
 .app ul li input {
   margin: 10px 10px 10px 0;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .app ul li {
   display: flex;
-  flex-wrap: wrap;
+  
   padding: 10px;
   background-color: #6dd5d0;
   border-bottom: 1px solid #105652;
@@ -174,4 +176,9 @@ label{
 .completed {
   color: #DFD8CA;
   text-decoration: line-through;
+}
+
+.sub_task {
+  float: inline-start;
+  
 }

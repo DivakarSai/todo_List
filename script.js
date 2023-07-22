@@ -25,7 +25,7 @@ function loadTasks(){
             <input type="text" value="${task.category}" class="task_cat ${task.completed ? "completed" : ""}" onfocus="getCurrentCategory(this)" onblur="editCategory(this)">
             <input type="date" value="${task.due_date}" class="task_due ${task.completed ? "completed" : ""}" onfocus="getCurrentDueDate(this)" onblur="editDueDate(this)">
             <i class="priority_display ${task.priority}">${task.priority}</i>
-            <i class="fa-trash" onclick="removeTask(this)">Delete</i>`;
+            <i class="fa-trash" onclick="removeTask(this)">Delete Task</i>`;
       li.setAttribute('id',identity++);
       
       // check if task has subtasks
@@ -37,7 +37,7 @@ function loadTasks(){
           const li = document.createElement("li");
           li.innerHTML = `<input type="checkbox" onclick="subTaskComplete(this)" class="check sub_task" ${subtask.completed ? "checked" : ""}>
                 <input type="text" value="${subtask.description}" class="task_desc sub_task ${subtask.completed ? "completed" : ""}" onfocus="getCurrentSubTask(this)" onblur="editSubTask(this)">
-                <i class="fa-trash sub_task" onclick="removeSubTask(this)">Delete</i>`;
+                <i class="fa-trash sub_task" onclick="removeSubTask(this)">Delete subTask</i>`;
           ul.appendChild(li);
           div.appendChild(ul);
         });
@@ -78,7 +78,7 @@ function addTask() {
       <input type="text" value="${category.value}" class="task_cat" onfocus="getCurrentCategory(this)" onblur="editCategory(this)">
       <input type="date" value="${(due_date.value)}" class="task_due" onfocus="getCurrentDueDate(this)" onblur="editDueDate(this)">
       <i class="priority_display ${priority.value}">${priority.value}</i>
-      <i class="fa-trash" onclick="removeTask(this)">Delete</i>`;
+      <i class="fa-trash" onclick="removeTask(this)">Delete Task</i>`;
   li.setAttribute('id',identity++);
   list.insertBefore(li, list.children[0]);
   // clear input
@@ -325,7 +325,7 @@ function addSubTask(event) {
   // add subtask to list item
   li.innerHTML = `<input type="checkbox" onclick="subTaskComplete(this)" class="check sub_task">
         <input type="text" value="${subtask.description}" class="task_desc sub_task ${subtask.completed ? "completed" : ""}" onfocus="getCurrentSubTask(this)" onblur="editSubTask(this)">
-        <i class="fa-trash sub_task" onclick="removeSubTask(this)">Delete</i>`;
+        <i class="fa-trash sub_task" onclick="removeSubTask(this)">Delete subTask</i>`;
 
   ul.appendChild(li);
   event.parentNode.appendChild(ul);
