@@ -40,10 +40,11 @@ function loadTasks(){
 
 
 
+
 function addTask() {
   const task = document.querySelector(".task_desc");
   const category = document.querySelector(".task_cat");
-  const due_date = document.querySelector(".task_due");
+  const due_date = document.querySelector(".task_date");
   const list = document.querySelector("ul");
   // return if task is empty
   if (task.value === "") {
@@ -66,7 +67,7 @@ function addTask() {
   li.innerHTML = `<input type="checkbox" onclick="taskComplete(this)" class="check">
       <input type="text" value="${task.value}" class="task_desc" onfocus="getCurrentTask(this)" onblur="editTask(this)">
       <input type="text" value="${category.value}" class="task_cat" onfocus="getCurrentTask(this)" onblur="editTask(this)">
-      <input type="date" value="${due_date.value}" class="task_due" onfocus="getCurrentTask(this)" onblur="editTask(this)">
+      <input type="date" value="${(due_date.value)}" class="task_due" onfocus="getCurrentTask(this)" onblur="editTask(this)">
       <i class="fa fa-trash" onclick="removeTask(this)">Delete</i>`;
   li.setAttribute('id',identity++);
   list.insertBefore(li, list.children[0]);
