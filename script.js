@@ -8,7 +8,7 @@ document.querySelector("form").addEventListener("submit", e => {
   addTask();
 });
 
-
+// function to load tasks from local storage
 function loadTasks(){
 
   // check if localStorage has any tasks
@@ -21,11 +21,29 @@ function loadTasks(){
       const li = document.createElement("li");
       li.innerHTML = `<input type="checkbox" onclick="taskComplete(this)" class="check" ${task.completed ? "checked" : ""}>
             <input type="text" value="${task.task}" class="task_desc ${task.completed ? "completed" : ""}" onfocus="getCurrentTask(this)" onblur="editTask(this)">
+            <button class="add_subtask" onclick="addSubTask(this)">+</button>
             <input type="text" value="${task.category}" class="task_cat ${task.completed ? "completed" : ""}" onfocus="getCurrentCategory(this)" onblur="editCategory(this)">
             <input type="date" value="${task.due_date}" class="task_due ${task.completed ? "completed" : ""}" onfocus="getCurrentDueDate(this)" onblur="editDueDate(this)">
-            <i class="priority_display">${task.priority}</i>
+            <i class="priority_display ${task.priority}">${task.priority}</i>
             <i class="fa-trash" onclick="removeTask(this)">Delete</i>`;
       li.setAttribute('id',identity++);
+      
+      // check if task has subtasks
+      if (task.subtasks!=null && task.subtasks.length > 0) {
+        const div = document.createElement("div");
+        div.classList.add("subtasks");
+        task.subtasks.forEach(subtask => {
+          const ul = document.createElement("ul");
+          const li = document.createElement("li");
+          li.innerHTML = `<input type="checkbox" onclick="subTaskComplete(this)" class="check sub_task" ${subtask.completed ? "checked" : ""}>
+                <input type="text" value="${subtask.description}" class="task_desc sub_task ${subtask.completed ? "completed" : ""}" onfocus="getCurrentSubTask(this)" onblur="editSubTask(this)">
+                <i class="fa-trash sub_task" onclick="removeSubTask(this)">Delete</i>`;
+          ul.appendChild(li);
+          div.appendChild(ul);
+        });
+        li.appendChild(div);
+      }
+
       list.insertBefore(li, list.children[0]);
     });
 
@@ -50,15 +68,16 @@ function addTask() {
   }
 
   // add task to local storage
-  localStorage.setItem("tasks", JSON.stringify([...JSON.parse(localStorage.getItem("tasks") || "[]"), { task: task.value, completed: false, category: category.value,due_date:due_date.value, priority:priority.value }]));
+  localStorage.setItem("tasks", JSON.stringify([...JSON.parse(localStorage.getItem("tasks") || "[]"), { task: task.value, completed: false, category: category.value,due_date:due_date.value, priority:priority.value, subtasks: [] }]));
 
   // create list item, add innerHTML and append to ul
   const li = document.createElement("li");
   li.innerHTML = `<input type="checkbox" onclick="taskComplete(this)" class="check">
       <input type="text" value="${task.value}" class="task_desc" onfocus="getCurrentTask(this)" onblur="editTask(this)">
+      <button class="add_subtask" onclick="addSubTask(this)">+</button>
       <input type="text" value="${category.value}" class="task_cat" onfocus="getCurrentCategory(this)" onblur="editCategory(this)">
       <input type="date" value="${(due_date.value)}" class="task_due" onfocus="getCurrentDueDate(this)" onblur="editDueDate(this)">
-      <i class="priority_display">${priority.value}</i>
+      <i class="priority_display ${priority.value}">${priority.value}</i>
       <i class="fa-trash" onclick="removeTask(this)">Delete</i>`;
   li.setAttribute('id',identity++);
   list.insertBefore(li, list.children[0]);
@@ -81,6 +100,26 @@ function taskComplete(event) {
   event.nextElementSibling.classList.toggle("completed");
   event.nextElementSibling.nextElementSibling.classList.toggle("completed");
 }
+
+//mark subtask as completed or not completed
+function subTaskComplete(event) {
+  let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
+  
+  tasks.forEach(task => {
+    if (task.task === event.parentNode.parentNode.parentNode.parentNode.children[1].value) {
+      task.subtasks.forEach(subtask => {
+        if (subtask.description === event.nextElementSibling.value) {
+         
+          subtask.completed = !subtask.completed;
+        }
+      });
+    }
+  });
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  event.nextElementSibling.classList.toggle("completed");
+  event.nextElementSibling.nextElementSibling.classList.toggle("completed");
+}
+
 
 
 
@@ -249,6 +288,95 @@ function filterTasks() {
     });
   }
 }
+
+// function to add subtasks
+function addSubTask(event) {
+  // alert to add subtask
+  const curr_task = event.parentNode.children[1].value;
+  //take the subtask and store it 
+  const desc = prompt("Add subtask");
+  if (desc === "") {
+    alert("Please add some subtask!");
+    return false;
+  }
+  
+  // check if subtask already exist
+  if (document.querySelector(`input[value="${desc}"]`)) {
+    alert("Subtask already exist!");
+    return false;
+  }
+  //create a JSON object for subtask
+  const subtask = { description: desc, completed: false };
+  // add subtask to local storage
+
+  let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
+  tasks.forEach(task => {
+    if (task.task === curr_task) {
+      task.subtasks.push(subtask);
+    }
+  });
+
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+
+  // create list item, add innerHTML and append to ul
+  const ul = document.createElement("ul");
+  const li = document.createElement("li");
+
+  // add subtask to list item
+  li.innerHTML = `<input type="checkbox" onclick="subTaskComplete(this)" class="check sub_task">
+        <input type="text" value="${subtask.description}" class="task_desc sub_task ${subtask.completed ? "completed" : ""}" onfocus="getCurrentSubTask(this)" onblur="editSubTask(this)">
+        <i class="fa-trash sub_task" onclick="removeSubTask(this)">Delete</i>`;
+
+  ul.appendChild(li);
+  event.parentNode.appendChild(ul);
+  
+
+}
+
+// store current subtask to track changes
+var currentSubTask = null;
+
+// get current subtask
+function getCurrentSubTask(event) {
+  currentSubTask = event.value;
+}
+
+//function to remove subtask
+function removeSubTask(event) {
+  let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
+  
+  tasks.forEach(task => {
+    if (task.task === event.parentNode.parentNode.parentNode.parentNode.children[1].value) {
+      task.subtasks.forEach(subtask => {
+        if (subtask.description === event.parentNode.children[1].value) {
+          // delete subtask
+          console.log(subtask);
+          task.subtasks.splice(task.subtasks.indexOf(subtask), 1);
+        }
+      });
+    }
+  });
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  event.parentElement.remove();
+}
+
+
+
+// function to edit subtask
+function editSubTask(event) {
+  let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
+  tasks.forEach(task => {
+    if (task.task === event.parentNode.parentNode.parentNode.children[1].value) {
+      task.subtasks.forEach(subtask => {
+        if (subtask === currentSubTask) {
+          subtask = event.value;
+        }
+      });
+    }
+  });
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
 
 
 
