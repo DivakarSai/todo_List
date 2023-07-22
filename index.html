@@ -15,11 +15,18 @@
   <div class="container">
     <div class="app">
       <h1>Do These 😠</h1>
-      <form>
+      <form name ="list_of_tasks">
+        
         <input type="text" class="task_desc" placeholder="Add new task...">
         <input type="text" class="task_cat" placeholder="category...">
         <label for="task_date">Due date:</label>
         <input type="date" class="task_date" name="date">
+        <label for="priority">Priority:</label>
+        <select name="priority" class="task_priority" aria-placeholder="select">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
         
         <button type="submit">+</button>
       

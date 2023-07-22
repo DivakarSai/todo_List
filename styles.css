@@ -11,9 +11,15 @@
   font-family: sans-serif;
 }
 
+select{
+  background-color: #6dd5d0;
+  color: #262626;
+  font-size: 16px;
+}
+
 .app {
   margin-top: 50px;
-  width: 80%;
+  width: 90%;
 }
 
 @media (max-width:768px) {
@@ -70,9 +76,17 @@ label{
   color: #262626;
   font-size: 16px;
   padding: 10px;
-  width: 10%;
+  width: 6%;
   margin-bottom: 1px;
   background-color: #1dd2af;
+}
+
+.priority_display{
+  width: 10%;
+  margin-bottom: 1px;
+  background-color: #6dd5d0;
+  font-size: large;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 
@@ -90,12 +104,17 @@ label{
 .app ul {
   list-style: none;
   color: #DFD8CA;
-  padding: 0;
+  padding: auto;
   background-color: #6dd5d0;
 }
 
+.app ul li input {
+  margin: 10px 10px 10px 0;
+}
+
 .app ul li {
-  display: flexbox;
+  display: flex;
+  flex-wrap: wrap;
   padding: 10px;
   background-color: #6dd5d0;
   border-bottom: 1px solid #105652;
@@ -132,13 +151,23 @@ label{
   outline: none;
 }
 
-.app ul li i {
-  float: right;
+.fa-trash {
+  margin-left: auto;
+  font-size: 20px;
   cursor: pointer;
   color: white;
+  float: right;
+  
 }
 
-.app ul li i:hover {
+.app ul li i {
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+  
+}
+
+.fa-trash:hover {
   color: rgb(185, 22, 70);
 }
 
