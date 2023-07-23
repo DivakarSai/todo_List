@@ -2,11 +2,32 @@
 window.onload = loadTasks;
 let identity=0;
 
-// On form submit add task
-document.querySelector("form").addEventListener("submit", e => {
+// On submitting the form list_of_tasks, add task
+document.querySelector("form[name='list_of_tasks']").addEventListener("submit", e => {
   e.preventDefault();
   addTask();
 });
+
+//on clicking sort_now button, sort tasks
+document.querySelector(".sort_now").addEventListener("click", e => {
+  e.preventDefault();
+  sortTasks();
+});
+
+//on clicking filter_now button, filter tasks
+document.querySelector(".filter_now").addEventListener("click", e => {
+  e.preventDefault();
+  filterTasks();
+});
+
+//on clicking clear_all button, clear all tasks
+document.querySelector(".clear_all").addEventListener("click", e => {
+  e.preventDefault();
+  localStorage.clear();
+  location.reload();
+});
+
+
 
 // function to load tasks from local storage
 function loadTasks(){
@@ -248,46 +269,68 @@ function editPriority(event) {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-
-// function to sort tasks based on completion
-function sortCompleted() {
-  let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
-  tasks.sort((a, b) => {
-    return a.completed - b.completed;
-  });
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-  location.reload();
-}
+//ceate a map for priority
+var priorityMap = new Map();
+priorityMap.set("low",1);
+priorityMap.set("medium",2);
+priorityMap.set("high",3);
 
 
-// function to sort tasks based on due date
+// function to sort tasks
 function sortTasks() {
   let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
-  tasks.sort((a, b) => {
-    return new Date(a.due_date) - new Date(b.due_date);
-  });
+  const sort_by = document.querySelector(".sort_by").value;
+  if (sort_by === "due_date") {
+    tasks.sort((a, b) => {
+      return new Date(b.due_date) - new Date(a.due_date);
+    });
+  } else if (sort_by === "priority") {
+    tasks.sort((a, b) => {
+      return priorityMap.get(a.priority) - priorityMap.get(b.priority);
+    });
+  } else if (sort_by === "completion") {
+    tasks.sort((a, b) => {
+      return b.completed - a.completed;
+    });
+  }
   localStorage.setItem("tasks", JSON.stringify(tasks));
   location.reload();
 }
 
-// function to filter tasks based on category
+
+// function to filter tasks 
 function filterTasks() {
-  let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
-  const category = document.querySelector(".filter").value;
-  if (category === "all") {
-    tasks.forEach(task => {
-      document.getElementById(task.task).style.display = "block";
+  
+  const filter_by = document.querySelector(".filter_by").value;
+  
+  //if filter by is no_filter, turn the visibility of all tasks to visible
+  if (filter_by === "no_filter") {
+    document.querySelectorAll("li").forEach(li => {
+      li.style.display = "block";
     });
-  } else {
-    tasks.forEach(task => {
-      if (task.category === category) {
-        document.getElementById(task.task).style.display = "block";
+  } else if (filter_by === "completed") {
+    //if filter by is completed, turn the visibility of all completed tasks to visible
+    document.querySelectorAll("li").forEach(li => {
+      if (li.children[0].checked) {
+        li.style.display = "block";
       } else {
-        document.getElementById(task.task).style.display = "none";
+        li.style.display = "none";
+      }
+    });
+  } else if (filter_by === "incomplete") {
+    //if filter by is incomplete, turn the visibility of all incomplete tasks to visible
+    document.querySelectorAll("li").forEach(li => {
+      if (!li.children[0].checked) {
+        li.style.display = "block";
+      } else {
+        li.style.display = "none";
       }
     });
   }
+
+  
 }
+
 
 // function to add subtasks
 function addSubTask(event) {
@@ -376,6 +419,8 @@ function editSubTask(event) {
   });
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
+
+
 
 
 

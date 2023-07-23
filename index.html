@@ -31,6 +31,23 @@
         <button type="submit">+</button>
       
       <closeform></closeform></form>
+      <form name ="tools">
+        <label for="sort">Sort by: </label>
+        <select name="sort" class="sort_by" aria-placeholder="select">
+          <option value="due_date">Due Date</option>
+          <option value="priority">Priority</option>
+          <option value="completion">Completion</option>
+        </select>
+        <button type="submit" class="sort_now">Sort</button>
+        <label for="filter">Filter by: </label>
+        <select name="filter" class="filter_by" aria-placeholder="select">
+          <option value="no_filter">No Filter</option>
+          <option value="completed">Completed</option>
+          <option value="incomplete">Incomplete</option>
+        </select>
+        <button type="submit" class="filter_now">Filter</button>
+        <button type = "submit" class="clear_all">Clear All</button>
+      </form>
       
 
       <ul></ul>

@@ -99,6 +99,12 @@ label{
   height: 42px;
   width: 10%;
   margin-bottom: 1px;
+  margin-right: 1px;
+  margin-left: 1px;
+}
+
+.app form button:hover {
+  background-color: #1a7e79;
 }
 
 .app ul {
