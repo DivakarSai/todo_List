@@ -476,23 +476,21 @@ function searchTasks(){
   document.querySelectorAll("li").forEach(li => {
     // check if the list item is a main task by looking for the main_task class
     if (li.children[0].classList.contains("main_task")) {
-      // check if the search query is present in the task
-    
-      if (li.children[0].children[1].value.toLowerCase().includes(search_query)) {     
+      // check if the search query is present in the task display the task else hide it
+      if (li.children[0].children[1].value.toLowerCase().includes(search_query)) {
         li.style.display = "block";
       }
       else {
         li.style.display = "none";
       }
+      console.log(li.children[0].children[1].value.toLowerCase());
+      console.log(li.style.display);
     }
     else{
       // check if the search query is present in the subtask diplay the task else hide it
       //console.log(li.children[0].children[1].value.toLowerCase());
       if (li.children[0].children[1].value.toLowerCase().includes(search_query)) {
         li.parentNode.parentNode.parentNode.style.display = "block";
-      }
-      else {
-        li.parentNode.parentNode.parentNode.style.display = "none";
       }
 
     }
