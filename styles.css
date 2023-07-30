@@ -5,16 +5,29 @@
 .main_task {
   display: flex;
   align-items: center;
-  background-color: #6dd5d0;
+  background-color: #E2F6CA;
   height: fit-content;
   font-family: sans-serif;
   flex-direction: row;
+  border-top: solid;
+  border-width: thin;
+  border-color: brown;
 }
 
 .subtasks {
-  background-color: bisque;
+  background-color: #F8FDCF;
   display: flex;
   flex-direction: column;
+}
+
+.subtask{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #F8FDCF;
+  height: fit-content;
+  font-family: sans-serif;
+  padding: 0 0 0 2em;
 }
 
 .container {
@@ -27,7 +40,7 @@
 }
 
 select{
-  background-color: #6dd5d0;
+  background-color: #E2F6CA;
   color: #262626;
   font-size: 16px;
 }
@@ -44,19 +57,19 @@ select{
 }
 
 .app h1 {
-  color: #DFD8CA;
+  /* color: #78C1F3; */
   font-size: 40px;
   padding: 10px 0;
   text-align: center;
   border-radius: .5rem .5rem 0 0;
-  background-color: rgb(185, 22, 70);
+  background-color: #78C1F3;
   font-family: "Rajdhani", sans-serif;
 }
 
 .app form {
   display: flex;
   justify-content: space-between;
-  background-color: #105652;
+  background-color: #9BE8D8;
 }
 
 .app form input {
@@ -73,18 +86,18 @@ select{
 .task_desc{
   width: 60%;
   font-size: large;
-  background-color: #6dd5d0;
+  background-color: #E2F6CA;
 }
 .task_cat{
   width: 15%;
   margin-bottom: 1px;
-  background-color: #6dd5d0;
+  background-color: #E2F6CA;
   font-size: large;
 }
 .task_date{
   width: 25%;
   margin-bottom: 1px;
-  background-color: #6dd5d0;
+  background-color: #E2F6CA;
   font-size: large;
 }
 label{
@@ -93,13 +106,13 @@ label{
   padding: 10px;
   width: 6%;
   margin-bottom: 1px;
-  background-color: #1dd2af;
+  background-color: #9BE8D8;
 }
 
 .priority_display{
   width: 10%;
   margin-bottom: 1px;
-  background-color: #6dd5d0;
+  background-color: #E2F6CA;
   font-size: large;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
@@ -108,7 +121,7 @@ label{
 .app form button {
   border: none;
   color: white;
-  background-color: #1dd2af;
+  background-color: #9BE8D8;
   font-size: 25px;
   font-weight: 600;
   /* height: 42px; */
@@ -126,7 +139,7 @@ label{
   list-style: none;
   color: #DFD8CA;
   padding: unset;
-  background-color: #6dd5d0;
+  background-color: #E2F6CA;
   border-radius: 0 0 .5rem .5rem;
   font-family: "Rajdhani", sans-serif;
   display: flex;
@@ -137,8 +150,8 @@ label{
   display: flex;
   justify-content: space-between;
   padding: 10px;
-  background-color: #105652;
-  border-bottom: 1px solid #105652;
+  background-color: #9BE8D8;
+  border-bottom: 1px solid #9BE8D8;
   height: fit-content;
   color: #050300;
   font-size: 3em;
@@ -146,16 +159,21 @@ label{
 
 .app ul li input {
   margin: 10px 10px 10px 0;
-  display: flex;
+  /* display: flex; */
   
+}
+
+.app ul {
+  list-style-type: none;
+  padding-inline-start: 0%;
 }
 
 /* .app ul li {
   display: flex;
   
   padding: 10px;
-  background-color: #6dd5d0;
-  border-bottom: 1px solid #105652;
+  background-color: #E2F6CA;
+  border-bottom: 1px solid #9BE8D8;
   height: fit-content;
   color: #DFD8CA;
   
@@ -172,7 +190,7 @@ label{
 }
 
 .check:checked {
-  background-color: #1dd2af;
+  background-color: #9BE8D8;
 }
 
 .task {
@@ -201,7 +219,7 @@ label{
 .app ul li i {
   font-size: 20px;
   cursor: pointer;
-  color: white;
+  color: midnightblue;
   
 }
 
@@ -216,5 +234,5 @@ label{
 
 .sub_task {
   float: inline-start;
-  background-color: bisque;
+  background-color: #F8FDCF;
 }

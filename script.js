@@ -65,7 +65,7 @@ function loadTasks(){
         <input type="text" value="${task.category}" class="task_cat ${task.completed ? "completed" : ""}" onfocus="getCurrentCategory(this)" onblur="editCategory(this)">
         <input type="date" value="${(task.due_date)}" class="task_due ${task.completed ? "completed" : ""}" onfocus="getCurrentDueDate(this)" onblur="editDueDate(this)">
         <i class="priority_display ${task.priority}">${task.priority}</i>
-        <i class="fa-trash" onclick="removeTask(this)">Delete Task</i>
+        <i class="fa-trash" onclick="removeTask(this)">Delete</i>
         </div>`;
 
       li.setAttribute('id',identity++);
@@ -80,7 +80,7 @@ function loadTasks(){
           li.innerHTML = `<div class="subtask">
                 <input type="checkbox" onclick="subTaskComplete(this)" class="check sub_task" ${subtask.completed ? "checked" : ""}>
                 <input type="text" value="${subtask.description}" class="task_desc sub_task ${subtask.completed ? "completed" : ""}" onfocus="getCurrentSubTask(this)" onblur="editSubTask(this)">
-                <i class="fa-trash sub_task" onclick="removeSubTask(this)">Delete subTask</i>
+                <i class="fa-trash sub_task" onclick="removeSubTask(this)">Delete</i>
                 </div>`;
           ul.appendChild(li);
           div.appendChild(ul);
@@ -125,7 +125,7 @@ function addTask() {
       <input type="text" value="${category.value}" class="task_cat" onfocus="getCurrentCategory(this)" onblur="editCategory(this)">
       <input type="date" value="${(due_date.value)}" class="task_due" onfocus="getCurrentDueDate(this)" onblur="editDueDate(this)">
       <i class="priority_display ${priority.value}">${priority.value}</i>
-      <i class="fa-trash" onclick="removeTask(this)">Delete Task</i>
+      <i class="fa-trash" onclick="removeTask(this)">Delete</i>
       </div>`;
   li.setAttribute('id',identity++);
   list.insertBefore(li, list.children[0]);
@@ -399,7 +399,7 @@ function addSubTask(event) {
   li.innerHTML = `<div class="subtasks">
         <input type="checkbox" onclick="subTaskComplete(this)" class="check sub_task">
         <input type="text" value="${subtask.description}" class="task_desc sub_task ${subtask.completed ? "completed" : ""}" onfocus="getCurrentSubTask(this)" onblur="editSubTask(this)">
-        <i class="fa-trash sub_task" onclick="removeSubTask(this)">Delete subTask</i>
+        <i class="fa-trash sub_task" onclick="removeSubTask(this)">Delete</i>
         </div>`;
 
   ul.appendChild(li);
@@ -467,6 +467,30 @@ function reminder(){
   
 }
 
+//function to add fuzzy search
+function fuzzySearch(query, text, maxDistance) {
+  query = query.toLowerCase();
+  text = text.toLowerCase();
+  const distanceMatrix = Array.from({ length: query.length + 1 }, (_, i) => [i]);
+
+  for (let i = 1; i <= text.length; i++) {
+    distanceMatrix[0][i] = i;
+  }
+
+  for (let i = 1; i <= query.length; i++) {
+    for (let j = 1; j <= text.length; j++) {
+      const cost = query[i - 1] === text[j - 1] ? 0 : 1;
+      distanceMatrix[i][j] = Math.min(
+        distanceMatrix[i - 1][j] + 1,
+        distanceMatrix[i][j - 1] + 1,
+        distanceMatrix[i - 1][j - 1] + cost
+      );
+    }
+  }
+
+  return distanceMatrix[query.length][text.length] <= maxDistance;
+}
+
 //adding search functionality for tasks
 function searchTasks(){
  
@@ -477,19 +501,20 @@ function searchTasks(){
     // check if the list item is a main task by looking for the main_task class
     if (li.children[0].classList.contains("main_task")) {
       // check if the search query is present in the task display the task else hide it
-      if (li.children[0].children[1].value.toLowerCase().includes(search_query)) {
+      const txt = li.children[0].children[1].value.toLowerCase();
+      if (txt.includes(search_query)||fuzzySearch(search_query,txt,2)) {
         li.style.display = "block";
       }
       else {
         li.style.display = "none";
       }
-      console.log(li.children[0].children[1].value.toLowerCase());
-      console.log(li.style.display);
+
     }
     else{
       // check if the search query is present in the subtask diplay the task else hide it
       //console.log(li.children[0].children[1].value.toLowerCase());
-      if (li.children[0].children[1].value.toLowerCase().includes(search_query)) {
+      const txt = li.children[0].children[1].value.toLowerCase();
+      if (txt.includes(search_query)||fuzzySearch(search_query,txt,2)) {
         li.parentNode.parentNode.parentNode.style.display = "block";
       }
 
