@@ -2,6 +2,9 @@
 window.onload = loadTasks;
 let identity=0;
 
+window.addEventListener("load", reminder);
+
+
 // On submitting the form list_of_tasks, add task
 document.querySelector("form[name='list_of_tasks']").addEventListener("submit", e => {
   e.preventDefault();
@@ -27,6 +30,21 @@ document.querySelector(".clear_all").addEventListener("click", e => {
   location.reload();
 });
 
+//on clicking search button, search tasks
+document.querySelector(".search_now").addEventListener("click", e => {
+  e.preventDefault();
+  searchTasks();
+});
+
+//on clicking clear_search button, clear search
+document.querySelector(".clear_search").addEventListener("click", e => {
+  e.preventDefault();
+  document.querySelector(".search_query").value = "";
+  location.reload();
+});
+
+
+
 
 
 // function to load tasks from local storage
@@ -40,13 +58,16 @@ function loadTasks(){
     tasks.forEach(task => {
       const list = document.querySelector("ul");
       const li = document.createElement("li");
-      li.innerHTML = `<input type="checkbox" onclick="taskComplete(this)" class="check" ${task.completed ? "checked" : ""}>
-            <input type="text" value="${task.task}" class="task_desc ${task.completed ? "completed" : ""}" onfocus="getCurrentTask(this)" onblur="editTask(this)">
-            <button class="add_subtask" onclick="addSubTask(this)">+</button>
-            <input type="text" value="${task.category}" class="task_cat ${task.completed ? "completed" : ""}" onfocus="getCurrentCategory(this)" onblur="editCategory(this)">
-            <input type="date" value="${task.due_date}" class="task_due ${task.completed ? "completed" : ""}" onfocus="getCurrentDueDate(this)" onblur="editDueDate(this)">
-            <i class="priority_display ${task.priority}">${task.priority}</i>
-            <i class="fa-trash" onclick="removeTask(this)">Delete Task</i>`;
+      li.innerHTML = `<div class="main_task">
+      <input type="checkbox" onclick="taskComplete(this)" class="check ${task.completed ? "completed" : ""}">
+        <input type="text" value="${task.task}" class="task_desc ${task.completed ? "completed" : ""}" onfocus="getCurrentTask(this)" onblur="editTask(this)">
+        <button class="add_subtask" onclick="addSubTask(this)">+</button>
+        <input type="text" value="${task.category}" class="task_cat ${task.completed ? "completed" : ""}" onfocus="getCurrentCategory(this)" onblur="editCategory(this)">
+        <input type="date" value="${(task.due_date)}" class="task_due ${task.completed ? "completed" : ""}" onfocus="getCurrentDueDate(this)" onblur="editDueDate(this)">
+        <i class="priority_display ${task.priority}">${task.priority}</i>
+        <i class="fa-trash" onclick="removeTask(this)">Delete Task</i>
+        </div>`;
+
       li.setAttribute('id',identity++);
       
       // check if task has subtasks
@@ -56,9 +77,11 @@ function loadTasks(){
         task.subtasks.forEach(subtask => {
           const ul = document.createElement("ul");
           const li = document.createElement("li");
-          li.innerHTML = `<input type="checkbox" onclick="subTaskComplete(this)" class="check sub_task" ${subtask.completed ? "checked" : ""}>
+          li.innerHTML = `<div class="subtask">
+                <input type="checkbox" onclick="subTaskComplete(this)" class="check sub_task" ${subtask.completed ? "checked" : ""}>
                 <input type="text" value="${subtask.description}" class="task_desc sub_task ${subtask.completed ? "completed" : ""}" onfocus="getCurrentSubTask(this)" onblur="editSubTask(this)">
-                <i class="fa-trash sub_task" onclick="removeSubTask(this)">Delete subTask</i>`;
+                <i class="fa-trash sub_task" onclick="removeSubTask(this)">Delete subTask</i>
+                </div>`;
           ul.appendChild(li);
           div.appendChild(ul);
         });
@@ -92,14 +115,18 @@ function addTask() {
   localStorage.setItem("tasks", JSON.stringify([...JSON.parse(localStorage.getItem("tasks") || "[]"), { task: task.value, completed: false, category: category.value,due_date:due_date.value, priority:priority.value, subtasks: [] }]));
 
   // create list item, add innerHTML and append to ul
+  //html contains a div for main task 
+
   const li = document.createElement("li");
-  li.innerHTML = `<input type="checkbox" onclick="taskComplete(this)" class="check">
+  li.innerHTML = `<div class="main_task">
+    <input type="checkbox" onclick="taskComplete(this)" class="check">
       <input type="text" value="${task.value}" class="task_desc" onfocus="getCurrentTask(this)" onblur="editTask(this)">
       <button class="add_subtask" onclick="addSubTask(this)">+</button>
       <input type="text" value="${category.value}" class="task_cat" onfocus="getCurrentCategory(this)" onblur="editCategory(this)">
       <input type="date" value="${(due_date.value)}" class="task_due" onfocus="getCurrentDueDate(this)" onblur="editDueDate(this)">
       <i class="priority_display ${priority.value}">${priority.value}</i>
-      <i class="fa-trash" onclick="removeTask(this)">Delete Task</i>`;
+      <i class="fa-trash" onclick="removeTask(this)">Delete Task</i>
+      </div>`;
   li.setAttribute('id',identity++);
   list.insertBefore(li, list.children[0]);
   // clear input
@@ -303,6 +330,7 @@ function filterTasks() {
   
   const filter_by = document.querySelector(".filter_by").value;
   
+  
   //if filter by is no_filter, turn the visibility of all tasks to visible
   if (filter_by === "no_filter") {
     document.querySelectorAll("li").forEach(li => {
@@ -365,10 +393,14 @@ function addSubTask(event) {
   const ul = document.createElement("ul");
   const li = document.createElement("li");
 
+
+
   // add subtask to list item
-  li.innerHTML = `<input type="checkbox" onclick="subTaskComplete(this)" class="check sub_task">
+  li.innerHTML = `<div class="subtasks">
+        <input type="checkbox" onclick="subTaskComplete(this)" class="check sub_task">
         <input type="text" value="${subtask.description}" class="task_desc sub_task ${subtask.completed ? "completed" : ""}" onfocus="getCurrentSubTask(this)" onblur="editSubTask(this)">
-        <i class="fa-trash sub_task" onclick="removeSubTask(this)">Delete subTask</i>`;
+        <i class="fa-trash sub_task" onclick="removeSubTask(this)">Delete subTask</i>
+        </div>`;
 
   ul.appendChild(li);
   event.parentNode.appendChild(ul);
@@ -419,6 +451,55 @@ function editSubTask(event) {
   });
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
+
+//function to give reminder
+function reminder(){
+  //store current date in a variable in the same format as due_date
+  let curr_date = new Date();
+  curr_date = curr_date.toISOString().slice(0,10);
+  //get all tasks from local storage
+  let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
+  tasks.forEach(task => {
+    if (task.due_date === curr_date) {
+      alert("The Task '"+task.task+"' is due today!");
+    }
+  });
+  
+}
+
+//adding search functionality for tasks
+function searchTasks(){
+ 
+  //get the search query
+  const search_query = document.querySelector(".search_query").value.toLowerCase();
+  //if the search query is present in the task, display the task else hide it
+  document.querySelectorAll("li").forEach(li => {
+    // check if the list item is a main task by looking for the main_task class
+    if (li.children[0].classList.contains("main_task")) {
+      // check if the search query is present in the task
+    
+      if (li.children[0].children[1].value.toLowerCase().includes(search_query)) {     
+        li.style.display = "block";
+      }
+      else {
+        li.style.display = "none";
+      }
+    }
+    else{
+      // check if the search query is present in the subtask diplay the task else hide it
+      //console.log(li.children[0].children[1].value.toLowerCase());
+      if (li.children[0].children[1].value.toLowerCase().includes(search_query)) {
+        li.parentNode.parentNode.parentNode.style.display = "block";
+      }
+      else {
+        li.parentNode.parentNode.parentNode.style.display = "none";
+      }
+
+    }
+  });
+}
+
+
 
 
 

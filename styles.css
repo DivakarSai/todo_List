@@ -2,6 +2,21 @@
   margin: 0
 }
 
+.main_task {
+  display: flex;
+  align-items: center;
+  background-color: #6dd5d0;
+  height: fit-content;
+  font-family: sans-serif;
+  flex-direction: row;
+}
+
+.subtasks {
+  background-color: bisque;
+  display: flex;
+  flex-direction: column;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -40,7 +55,7 @@ select{
 
 .app form {
   display: flex;
-  
+  justify-content: space-between;
   background-color: #105652;
 }
 
@@ -96,7 +111,7 @@ label{
   background-color: #1dd2af;
   font-size: 25px;
   font-weight: 600;
-  height: 42px;
+  /* height: 42px; */
   width: 10%;
   margin-bottom: 1px;
   margin-right: 1px;
@@ -107,20 +122,35 @@ label{
   background-color: #1a7e79;
 }
 
-.app ul {
+/* .app ul {
   list-style: none;
   color: #DFD8CA;
-  padding: auto;
+  padding: unset;
   background-color: #6dd5d0;
+  border-radius: 0 0 .5rem .5rem;
+  font-family: "Rajdhani", sans-serif;
+  display: flex;
+  flex-direction: column;
+} */
+
+.table_header{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #105652;
+  border-bottom: 1px solid #105652;
+  height: fit-content;
+  color: #050300;
+  font-size: 3em;
 }
 
 .app ul li input {
   margin: 10px 10px 10px 0;
   display: flex;
-  flex-wrap: wrap;
+  
 }
 
-.app ul li {
+/* .app ul li {
   display: flex;
   
   padding: 10px;
@@ -129,11 +159,11 @@ label{
   height: fit-content;
   color: #DFD8CA;
   
-}
+} */
 
 .check {
-  width: 0.8em;
-  height: 0.8em;
+  /* width: 0.8em;
+  height: 0.8em; */
   cursor: pointer;
   border-radius: 50%;
   background-color: white;
@@ -186,5 +216,5 @@ label{
 
 .sub_task {
   float: inline-start;
-  
+  background-color: bisque;
 }
