@@ -2,20 +2,95 @@
   margin: 0
 }
 
-.main_task {
+li {
+  border-radius: 0.5em;
+}
+
+.search_bar{
   display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #64CCC5;
+  border-bottom: 1px solid #64CCC5;
+  height: fit-content;
+  color: #050300;
+  font-size: 3em;
+}
+
+.tools_container{
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+  width: -webkit-fill-available;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #64CCC5;
+  border-bottom: 1px solid #64CCC5;
+  height: fit-content;
+  color: #050300;
+  font-size: 3em;
+}
+
+sort{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #64CCC5;
+  border-bottom: 1px solid #64CCC5;
+  height: fit-content;
+  color: #050300;
+  font-size: 3em;
+}
+
+filter {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #64CCC5;
+  border-bottom: 1px solid #64CCC5;
+  height: fit-content;
+  color: #050300;
+  font-size: 3em;
+}
+
+
+.main_task {
+  display: block;
   align-items: center;
   background-color: #E2F6CA;
   height: fit-content;
   font-family: sans-serif;
   flex-direction: row;
-  border-top: solid;
+  /* border-top: solid;
   border-width: thin;
-  border-color: brown;
+  border-color: brown; */
+  margin-top: 0.5em;
+}
+
+.mt1 {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #64CCC5;
+  border-bottom: 1px solid #64CCC5;
+  height: fit-content;
+  color: #050300;
+  font-size: 3em;
+}
+
+.mt2 {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #64CCC5;
+  border-bottom: 1px solid #64CCC5;
+  height: fit-content;
+  color: #050300;
+  font-size: 3em;
 }
 
 .subtasks {
-  background-color: #F8FDCF;
+  background-color: #6cddd5;
   display: flex;
   flex-direction: column;
 }
@@ -24,10 +99,10 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: #F8FDCF;
+  background-color: #6cddd5;
   height: fit-content;
   font-family: sans-serif;
-  padding: 0 0 0 2em;
+  padding: 0 10px 0 2em;
 }
 
 .container {
@@ -69,7 +144,7 @@ select{
 .app form {
   display: flex;
   justify-content: space-between;
-  background-color: #9BE8D8;
+  background-color: #64CCC5;
 }
 
 .app form input {
@@ -106,26 +181,28 @@ label{
   padding: 10px;
   width: 6%;
   margin-bottom: 1px;
-  background-color: #9BE8D8;
+  background-color: #64CCC5;
 }
 
 .priority_display{
   width: 10%;
   margin-bottom: 1px;
-  background-color: #E2F6CA;
+  text-align: right;
+  /* background-color: #64CCC5; */
+  text-transform: capitalize;
+  /* font-weight: bold; */
   font-size: large;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 
 .app form button {
   border: none;
   color: white;
-  background-color: #9BE8D8;
+  background-color: #64CCC5;
   font-size: 25px;
   font-weight: 600;
   /* height: 42px; */
-  width: 10%;
+  width: 5em;
   margin-bottom: 1px;
   margin-right: 1px;
   margin-left: 1px;
@@ -150,8 +227,8 @@ label{
   display: flex;
   justify-content: space-between;
   padding: 10px;
-  background-color: #9BE8D8;
-  border-bottom: 1px solid #9BE8D8;
+  background-color: #64CCC5;
+  border-bottom: 1px solid #64CCC5;
   height: fit-content;
   color: #050300;
   font-size: 3em;
@@ -173,11 +250,12 @@ label{
   
   padding: 10px;
   background-color: #E2F6CA;
-  border-bottom: 1px solid #9BE8D8;
+  border-bottom: 1px solid #64CCC5;
   height: fit-content;
   color: #DFD8CA;
   
 } */
+
 
 .check {
   /* width: 0.8em;
@@ -190,7 +268,7 @@ label{
 }
 
 .check:checked {
-  background-color: #9BE8D8;
+  background-color: #64CCC5;
 }
 
 .task {
@@ -220,6 +298,7 @@ label{
   font-size: 20px;
   cursor: pointer;
   color: midnightblue;
+  font-weight: 800;
   
 }
 
@@ -234,5 +313,5 @@ label{
 
 .sub_task {
   float: inline-start;
-  background-color: #F8FDCF;
+  background-color: #6cddd5;
 }

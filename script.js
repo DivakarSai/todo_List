@@ -59,16 +59,21 @@ function loadTasks(){
       const list = document.querySelector("ul");
       const li = document.createElement("li");
       li.innerHTML = `<div class="main_task">
-      <input type="checkbox" onclick="taskComplete(this)" class="check ${task.completed ? "completed" : ""}">
+      <div class="mt1">
+        <input type="checkbox" onclick="taskComplete(this)" class="check ${task.completed ? "completed" : ""}">
         <input type="text" value="${task.task}" class="task_desc ${task.completed ? "completed" : ""}" onfocus="getCurrentTask(this)" onblur="editTask(this)">
-        <button class="add_subtask" onclick="addSubTask(this)">+</button>
+        <button class="add_subtask" onclick="addSubTask(this)" style="margin-right: 0.5em">Add Subtask</button>
+        <i class="fa-trash" onclick="removeTask(this)">Delete</i>
+      </div>
+      <div class="mt2">
         <input type="text" value="${task.category}" class="task_cat ${task.completed ? "completed" : ""}" onfocus="getCurrentCategory(this)" onblur="editCategory(this)">
         <input type="date" value="${(task.due_date)}" class="task_due ${task.completed ? "completed" : ""}" onfocus="getCurrentDueDate(this)" onblur="editDueDate(this)">
-        <i class="priority_display ${task.priority}">${task.priority}</i>
-        <i class="fa-trash" onclick="removeTask(this)">Delete</i>
-        </div>`;
+        <div class="priority_display ${task.priority}">${task.priority}</div>
+      </div>
+      </div>`;
 
       li.setAttribute('id',identity++);
+      li.setAttribute('class','the_Task');
       
       // check if task has subtasks
       if (task.subtasks!=null && task.subtasks.length > 0) {
@@ -119,15 +124,20 @@ function addTask() {
 
   const li = document.createElement("li");
   li.innerHTML = `<div class="main_task">
-    <input type="checkbox" onclick="taskComplete(this)" class="check">
-      <input type="text" value="${task.value}" class="task_desc" onfocus="getCurrentTask(this)" onblur="editTask(this)">
-      <button class="add_subtask" onclick="addSubTask(this)">+</button>
-      <input type="text" value="${category.value}" class="task_cat" onfocus="getCurrentCategory(this)" onblur="editCategory(this)">
-      <input type="date" value="${(due_date.value)}" class="task_due" onfocus="getCurrentDueDate(this)" onblur="editDueDate(this)">
-      <i class="priority_display ${priority.value}">${priority.value}</i>
-      <i class="fa-trash" onclick="removeTask(this)">Delete</i>
-      </div>`;
+      <div class="mt1">
+        <input type="checkbox" onclick="taskComplete(this)" class="check">
+        <input type="text" value="${task.value}" class="task_desc" onfocus="getCurrentTask(this)" onblur="editTask(this)">
+        <button class="add_subtask" onclick="addSubTask(this)" style="margin-top:0.5em">Add Subtask</button>
+        <i class="fa-trash" onclick="removeTask(this)">Delete</i>
+      </div>
+      <div class="mt2">
+        <input type="text" value="${category.value}" class="task_cat" onfocus="getCurrentCategory(this)" onblur="editCategory(this)">
+        <input type="date" value="${(due_date.value)}" class="task_due" onfocus="getCurrentDueDate(this)" onblur="editDueDate(this)">
+        <div class="priority_display ${priority.value}">${priority.value}</div>
+      </div>
+    </div>`;
   li.setAttribute('id',identity++);
+  li.setAttribute('class','the_Task');
   list.insertBefore(li, list.children[0]);
   // clear input
   task.value = "";
@@ -152,20 +162,23 @@ function taskComplete(event) {
 //mark subtask as completed or not completed
 function subTaskComplete(event) {
   let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
-  
   tasks.forEach(task => {
-    if (task.task === event.parentNode.parentNode.parentNode.parentNode.children[1].value) {
+    //console.log(event.parentNode.parentNode.parentNode.parentNode.parentNode.children[0].children[1].value);
+    if (task.task === event.parentNode.parentNode.parentNode.parentNode.parentNode.children[0].children[1].value) {
       task.subtasks.forEach(subtask => {
-        if (subtask.description === event.nextElementSibling.value) {
-         
+        if (subtask.description === event.parentNode.children[1].value) {
+          console.log(subtask);
+          console.log(subtask.completed);
           subtask.completed = !subtask.completed;
         }
       });
     }
-  });
+  }
+  );
   localStorage.setItem("tasks", JSON.stringify(tasks));
   event.nextElementSibling.classList.toggle("completed");
   event.nextElementSibling.nextElementSibling.classList.toggle("completed");
+
 }
 
 
@@ -419,11 +432,11 @@ function getCurrentSubTask(event) {
 //function to remove subtask
 function removeSubTask(event) {
   let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
-  
+  const curr_task = traceBack(event.parentNode, "the_Task");
   tasks.forEach(task => {
-    if (task.task === event.parentNode.parentNode.parentNode.parentNode.children[1].value) {
+    if (task.task === curr_task.children[0].children[0].children[1].value) {
       task.subtasks.forEach(subtask => {
-        if (subtask.description === event.parentNode.children[1].value) {
+        if (subtask.description === currentSubTask) {
           // delete subtask
           console.log(subtask);
           task.subtasks.splice(task.subtasks.indexOf(subtask), 1);
@@ -431,20 +444,41 @@ function removeSubTask(event) {
       });
     }
   });
+
+
   localStorage.setItem("tasks", JSON.stringify(tasks));
   event.parentElement.remove();
 }
+
+//function to trace back to main task
+function traceBack(node, stopClass) {
+  
+  if(node.parentNode&&node.parentNode.classList.contains(stopClass)){
+    return node.parentNode;
+  }
+  else if(node.parentNode){
+    return traceBack(node.parentNode,stopClass);
+  } 
+  else{
+    return null;
+  }
+
+}
+
 
 
 
 // function to edit subtask
 function editSubTask(event) {
   let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
+  const curr_task = traceBack(event.parentNode, "the_Task");
   tasks.forEach(task => {
-    if (task.task === event.parentNode.parentNode.parentNode.children[1].value) {
+    
+    if (task.task === curr_task.children[0].children[0].children[1].value) {
       task.subtasks.forEach(subtask => {
-        if (subtask === currentSubTask) {
-          subtask = event.value;
+
+        if (subtask.description === currentSubTask) {
+          subtask.description = event.value;
         }
       });
     }

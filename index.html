@@ -32,27 +32,35 @@
       
       <closeform></closeform></form>
       <form name ="tools">
-        <label for="sort">Sort by: </label>
-        <select name="sort" class="sort_by" aria-placeholder="select">
-          <option value="due_date">Due Date</option>
-          <option value="priority">Priority</option>
-          <option value="completion">Completion</option>
-        </select>
-        <button type="submit" class="sort_now">Sort</button>
-        <label for="filter">Filter by: </label>
-        <select name="filter" class="filter_by" aria-placeholder="select">
-          <option value="no_filter">No Filter</option>
-          <option value="completed">Completed</option>
-          <option value="incomplete">Incomplete</option>
-        </select>
-        <button type="submit" class="filter_now">Filter</button>
+        <div class="tools_container">
+        <div class="sort_table">
+          <label for="sort">Sort by: </label>
+          <select name="sort" class="sort_by" aria-placeholder="select">
+            <option value="due_date">Due Date</option>
+            <option value="priority">Priority</option>
+            <option value="completion">Completion</option>
+          </select>
+          <button type="submit" class="sort_now">Sort</button>
+        </div>
+        <div class="filter_table">
+          <label for="filter">Filter by: </label>
+          <select name="filter" class="filter_by" aria-placeholder="select">
+            <option value="no_filter">No Filter</option>
+            <option value="completed">Completed</option>
+            <option value="incomplete">Incomplete</option>
+          </select>
+          <button type="submit" class="filter_now">Filter</button>
+        </div>
         <button type = "submit" class="clear_all">Clear All</button>
+      </div>
       </form>
       <br>
+      <div class="search_bar">
       <label for="search">Search: </label>
       <input type="text" class="search_query" placeholder="search...">
       <button type="submit" class="search_now">Search now</button>
       <button type="submit" class="clear_search">Clear Search</button>
+      </div>
       <br>
      
       <h2>Tasks</h2>
